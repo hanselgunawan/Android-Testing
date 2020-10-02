@@ -1,8 +1,7 @@
 package com.hanseltritama.androidtestingdemo
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -37,19 +36,29 @@ class ExampleInstrumentedTest {
 
     @Test
     fun userCanEnterFirstName() {
-        onView(withId(R.id.firstName)).perform(typeText("Tony"))
+        onView(withId(R.id.firstName)).perform(typeText("Tony"), closeSoftKeyboard())
     }
 
     @Test
     fun userCanEnterLastName() {
-        onView(withId(R.id.lastName)).perform(typeText("Stark"))
+        onView(withId(R.id.lastName)).perform(typeText("Stark"), closeSoftKeyboard())
     }
 
     @Test
     fun checkTextResult() {
-        onView(withId(R.id.firstName)).perform(typeText("Brian"))
-        onView(withId(R.id.lastName)).perform(typeText("McKnight"))
+        onView(withId(R.id.firstName)).perform(typeText("Brian"), closeSoftKeyboard())
+        onView(withId(R.id.lastName)).perform(typeText("McKnight"), closeSoftKeyboard())
         onView(withId(R.id.button)).perform(click())
         onView(withId(R.id.textResult)).check(matches(withText("Welcome, Brian McKnight!")))
+    }
+
+    @Test
+    fun checkConfirmationScreenName() {
+        onView(withId(R.id.firstName)).perform(typeText("Paul"), closeSoftKeyboard())
+        onView(withId(R.id.lastName)).perform(typeText("Klein"), closeSoftKeyboard())
+        onView(withId(R.id.button)).perform(click())
+        onView(withId(R.id.textResult)).check(matches(withText("Welcome, Paul Klein!")))
+        onView(withId(R.id.buttonChangeActivity)).perform(click())
+        onView(withId(R.id.textConfirmation)).check(matches(withText("Your name is Paul Klein")))
     }
 }
