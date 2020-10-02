@@ -1,8 +1,11 @@
 package com.hanseltritama.androidtestingdemo
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
@@ -34,6 +37,19 @@ class ExampleInstrumentedTest {
 
     @Test
     fun userCanEnterFirstName() {
-        onView(withId(R.id.firstName)).perform(typeText("Hansel"))
+        onView(withId(R.id.firstName)).perform(typeText("Tony"))
+    }
+
+    @Test
+    fun userCanEnterLastName() {
+        onView(withId(R.id.lastName)).perform(typeText("Stark"))
+    }
+
+    @Test
+    fun checkTextResult() {
+        onView(withId(R.id.firstName)).perform(typeText("Brian"))
+        onView(withId(R.id.lastName)).perform(typeText("McKnight"))
+        onView(withId(R.id.button)).perform(click())
+        onView(withId(R.id.textResult)).check(matches(withText("Welcome, Brian McKnight!")))
     }
 }
